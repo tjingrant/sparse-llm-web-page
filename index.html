@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Journey Matters: Average Parameter Count over Pre-training Unifies Sparse and Dense Scaling Laws</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #3498db;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.4em;
+            color: #2980b9;
+        }
+        .authors {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .figure {
+            text-align: center;
+            margin: 30px 0;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .figure-left {
+            text-align: center;
+            margin: 30px 0;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .figure-right {
+            text-align: center;
+            margin: 30px 0;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .figure img {
+            max-width: 100%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        .figure-caption {
+            font-style: italic;
+            margin-top: 10px;
+            color: #555;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .abstract {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .resources {
+            background-color: #eaf2f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        .resources a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .resources a:hover {
+            text-decoration: underline;
+        }
+        .citation {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+        }
+        .highlight {
+            background-color: #fffde7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .math-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .figure-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .figure-container .figure {
+            flex: 1;
+            min-width: 300px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Journey Matters: Average Parameter Count over Pre-training Unifies Sparse and Dense Scaling Laws</h1>
+        <div class="authors">
+            Tian Jin, Ahmed Imtiaz Humayun, Utku Evci, Suvinay Subramanian, Amir Yazdanbakhsh, Dan Alistarh, Gintare Karolina Dziugaite
+        </div>
+        <div>
+            <em>ICLR 2025</em>
+        </div>
+    </header>
+
+
+    <h2>Sparse vs Dense Pre-training Comparison</h2>
+
+    <p>
+        We <strong>the average parameter count during pre-training</strong>, not the final model size, predicts model quality. 
+    </p>
+
+    <p>
+        Below we compare 4 pairs of sparse and dense models with matching average parameter counts. 
+        The first shows how parameter count changes over training time for sparse vs. dense pre-training. 
+        The second shows that sparse pre-trained models (with significantly fewer final parameters) can match the performance of their dense counterparts when they share the same average parameter count during training.
+    </p>
+
+    <div class="figure-container">
+        <div class="figure" style="width: 130%;">
+            <img src="figs/sparsity-schedule.png" alt="Sparsity Schedule Comparison">
+            <div class="figure-caption">
+                Figure 1: Different sparsity schedules. This plot demonstrates how the parameter count changes over time for sparse vs. dense pre-training.
+            </div>
+        </div>
+        <div class="figure" style="width: 70%;">
+            <img src="figs/160m-sparse-dense-comparison.png" alt="160M Parameter Model Comparison">
+            <div class="figure-caption">
+                Figure 2: Sparse vs. dense pre-training eval loss for 160M parameter models with matching average parameter counts. 
+                Sparse pre-training achieves comparable performance to dense pre-training when their average parameter counts match, even though sparsely pre-training models have significantly fewer final parameters.
+            </div>
+        </div>
+    </div>
+
+
+    <h2>Unified Scaling Law with Average Parameter Count</h2>
+    
+    <p>
+        <!-- Our key theoretical contribution is a modified version of the Chinchilla scaling law that uses the 
+        <span class="highlight">average parameter count over pre-training</span>. This approach unifies the scaling behavior 
+        of both sparse and dense pre-training paradigms. -->
+        Building on this observation, we propose a modified scaling law that uses the <span class="highlight">average parameter count over pre-training</span> as the model size term.
+        This approach unifies the scaling laws of both sparse and dense pre-training paradigms.
+        We validated this scaling law across models ranging from 58M to 468M parameters, trained with up to 20x the Chinchilla-optimal token budget. 
+        The modified scaling law accurately predicts model performance across both sparse and dense pre-training regimes.
+    </p>
+
+    <div class="math-block">
+        <p>The original Chinchilla scaling law:</p>
+        <p>\[ L(N, D) = E + \frac{A}{N^\alpha} + \frac{B}{D^\beta} \]</p>
+        <p>Our modified scaling law using average parameter count:</p>
+        <p>\[ L(N_{\text{avg}}, D) = E + \frac{A}{N_{\text{avg}}^\alpha} + \frac{B}{D^\beta} \]</p>
+        <p>where \(N_{\text{avg}} = \frac{1}{D} \int_0^D N(t) dt\) is the average parameter count over training.</p>
+    </div>
+
+    <div class="figure">
+        <img src="figs/scaling-fit.png" alt="Scaling Law Goodness of Fit">
+        <div class="figure-caption">
+            Figure 4: Our unified scaling law accurately predicts performance for both sparse and dense pre-training approaches. The plot shows the goodness of fit between predicted and actual loss values across 30 different model configurations.
+        </div>
+    </div>
+
+    <p>
+        The figure above demonstrates the goodness of fit of our unified scaling law. By using average parameter count 
+        rather than final parameter count, we can accurately predict model performance across both sparse and dense 
+        pre-training regimes. This provides a theoretical foundation for understanding the efficiency of sparse pre-training.
+    </p>
+
+    <h2>The Value of Sparse Pre-training</h2>
+    
+    <p>
+        Sparse pre-training effectively <strong>decouples average parameter count</strong> (which governs quality) from <strong>final parameter count</strong> (which determines inference costs), thus enabling a new Pareto frontier in the training cost vs. inference efficiency trade-off. 
+    </p>
+
+    
+    <ol>
+        <li><strong>Compute v.s. Quality:</strong> Optimal sparse pre-training achieves equivalent compute versus quality trade-off as dense pre-training.</li>
+        <li><strong>Reduced Model Size:</strong> The final models are significantly smaller, potentially requiring less compute/memory/storage.</li>
+        <!-- <li><strong>Inference Efficiency:</strong> Smaller models can lead to faster inference times and reduced computational requirements.</li> -->
+        <li><strong>Simplified Pipeline:</strong> Combining pruning and pre-training eliminates the need for separate pruning and fine-tuning stages.</li>
+    </ol>
+
+    <h2>Resources</h2>
+    <p>
+            <strong>Paper:</strong> <a href="https://arxiv.org/abs/2501.12486" target="_blank">Read on arXiv</a><br>
+            <strong>Code:</strong> <a href="https://github.com/tjingrant/sparse-llm-code" target="_blank">GitHub Repository</a>
+    </p>
+
+    <h2>Citation</h2>
+    <div class="citation">@inproceedings{jin2025the,
+  title={The Journey Matters: Average Parameter Count over Pre-training Unifies Sparse and Dense Scaling Laws},
+  author={Tian Jin and Ahmed Imtiaz Humayun and Utku Evci and Suvinay Subramanian and Amir Yazdanbakhsh and Dan Alistarh and Gintare Karolina Dziugaite},
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2025},
+}</div>
+
+    <footer>
+        &copy; 2025 - The authors of "The Journey Matters: Average Parameter Count over Pre-training Unifies Sparse and Dense Scaling Laws"
+    </footer>
+</body>
+</html> 
